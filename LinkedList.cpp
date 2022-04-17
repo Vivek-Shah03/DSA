@@ -1,4 +1,3 @@
-//BASIC IMPLEMENTATION OF LINKED LIST
 #include<iostream>
 using namespace std;
 
@@ -26,13 +25,13 @@ void insert_at_end_ll(int x){
 }
 
 void insert_at_front_ll(int x){
-     struct node *newnode = (struct node*)malloc(sizeof(struct node));
-     newnode->data = x;
-     newnode->next = NULL;
-     if(head != NULL){
-        newnode->next = head;
-     }
-     head = newnode;
+ struct node *newnode = (struct node*)malloc(sizeof(struct node));
+ newnode->data = x;
+ newnode->next = NULL;
+ if(head != NULL){
+    newnode->next = head;
+ }
+ head = newnode;
 }
 
 void print_ll(){
@@ -63,8 +62,7 @@ void delete_data_in_ll(int x)
                 if(save->next->data == x)
                 {
                     save->next = save->next->next;
-                    save->next->next = NULL;
-                    break;
+                    return;
                 }
                 save = save->next;
             }
@@ -82,7 +80,7 @@ main()
     insert_at_end_ll(30);
     insert_at_front_ll(0);
     print_ll();
-    delete_data_in_ll(0);
+    delete_data_in_ll(50);
     print_ll();
 
     return 0;
