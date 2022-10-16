@@ -1,37 +1,28 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-int dp[10][10];
-
+// Bottom-Up Approach
 int knapsack(int w[], int v[], int W, int n){
-    // if bag capacity is zero or if we don't have any item
-    if(W==0 || n == 0){
-        return 0;
+    int t[n+1][W+1];
+    // initialize first column with zero
+    for(int i=0;i<=n;i++) t[i][0]=0;
+    // initialize first raw with zero
+    for(int j=0;j<=W;j++) t[0][j]=0;
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=W;j++){
+            // if weight of item is less than or equal to bag capacity
+            if(w[i-1] <= j)
+                t[i][j]= max(v[i-1]+t[i-1][j-w[i-1]],t[i-1][j]);
+            else
+                t[i][j] = t[i-1][j];
+        }
     }
-    // if we already have the value of below recursive calls
-    if(dp[n][W] != -1){
-        return dp[n][W];
-    }
-    // if weight of item is less than or equal to bag capacity
-    if(w[n-1] <= W){
-        // maximum of if we add curruntly selected item in knapsack or don't add
-        dp[n][W] = max(v[n-1]+knapsack(w,v,W-w[n-1],n-1),knapsack(w,v,W,n-1));
-        return dp[n][W];
-    }
-    // if weight of item is greater than capacity
-    else if(w[n-1] > W){
-        dp[n][W] = knapsack(w,v,W,n-1);
-        return dp[n][W];
-    }
+    return t[n][W];
 }
+
 int main() {
-    // initialize dp with -1
-    memset(dp, -1, sizeof dp);
-    // weight of items
     int w[] = {2, 3, 4, 5};
-    // value of items
     int v[] = {3, 4, 5, 6};
-    // total capacity of knapsack
     int W = 5;
     cout << "Maximum Profit: " << knapsack(w,v,W,4) << endl;
     return 0;
